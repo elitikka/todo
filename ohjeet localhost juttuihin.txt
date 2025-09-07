@@ -1,0 +1,6 @@
+Kun projektia rupeaa työstämään, pitää huolehtia että database on päällä yms.
+1. Avaa pgAdmin ja database
+2. Mene server kansioon, cmd ja sieltä: npm run devStart
+--> localhost http://localhost:3001/ on meidän backend
+3. Mene todo kansioon, cmd ja sieltä: npm run dev
+--> localhost http://localhost:5173/ on meidän frontend

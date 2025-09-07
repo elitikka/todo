@@ -1,0 +1,36 @@
+/* UserRouter will handle all requests having “/user” in url 
+(e.g. http://localhost:3001/user/register). 
+Since userRouter was default exported you can “rename” 
+it when importing (exporting name was router and 
+importing name is now userRouter). 
+*/
+
+import express from 'express'
+import cors from 'cors' 
+import todoRouter from './routes/todoRouter.js' 
+import userRouter from './routes/userRouter.js' 
+ 
+const port = process.env.PORT 
+ 
+const app = express() 
+app.use(cors()) 
+app.use(express.json()) 
+app.use(express.urlencoded({ extended: false })) 
+ 
+app.use('/', todoRouter)
+app.use('/user',userRouter) 
+
+
+
+app.listen(port)
+
+
+app.use((err,req,res,next) => { 
+  const statusCode = err.status || 500 
+  res.status(statusCode).json({ 
+  error: { 
+    message: err.message, 
+    status: statusCode   
+} 
+}) 
+})
