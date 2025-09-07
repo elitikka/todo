@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+import { useUser } from '../context/useUser'
+//import './App.css'
 import axios from 'axios'
-import Row from './components/Row'
+import Row from '../components/Row'
 
 const url ="http://localhost:3001"
 
@@ -12,6 +13,7 @@ as string (description of a task) and Tasks is an array containing all tasks.
 function App() {
   const [task, setTask] = useState ('')
   const [tasks, setTasks] = useState([])
+  const { user } = useUser() 
 
 useEffect(() => {
   axios.get(url)
@@ -27,10 +29,14 @@ useEffect(() => {
 /* AddTask function adds new task into array immutable way (a full copy of an array is created using spread operator and new task description is added). 
 After adding a new task input field is emptied by resetting state variable to empty string.  */
 
+/* Pass additional headers when posting to create endpoint. Authorization header with the 
+token (that was returned from the server when user signed in) is sent as part of HTTP call.  */
+
   const addTask = () => {
+   const headers = {headers: {Authorization: user.token}}
     const newTask = {description: task}
 
-    axios.post(url +"/create",{task: newTask})
+    axios.post(url +"/create",{task: newTask}, headers)
     .then(response => {
       setTasks([...tasks,response.data])
       setTask('')
@@ -41,9 +47,11 @@ After adding a new task input field is emptied by resetting state variable to em
   }
 
 /* Delete function receives task (description) as parameter and removes it from array using filter. State is updated without removed task. */
-
+/* Token needs to be passed also when deleting data. */
   const deleteTask = (deleted) => {
-    axios.delete(url+"/delete/" + deleted)
+    const headers = {headers: {Authorization: user.token}}
+     console.log(headers)
+    axios.delete(url+"/delete/" + deleted, headers)
     .then(response => {
       setTasks(tasks.filter(item => item.id !== deleted))
     })
