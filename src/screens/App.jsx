@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useUser } from '../context/useUser'
-//import './App.css'
 import axios from 'axios'
 import Row from '../components/Row'
 
@@ -27,10 +26,9 @@ useEffect(() => {
 
 
 /* AddTask function adds new task into array immutable way (a full copy of an array is created using spread operator and new task description is added). 
-After adding a new task input field is emptied by resetting state variable to empty string.  */
+After adding a new task input field is emptied by resetting state variable to empty string. 
 
-/* Pass additional headers when posting to create endpoint. Authorization header with the 
-token (that was returned from the server when user signed in) is sent as part of HTTP call.  */
+ Pass additional headers when posting to create endpoint. Authorization header with the token (that was returned from the server when user signed in) is sent as part of HTTP call.  */
 
   const addTask = () => {
    const headers = {headers: {Authorization: user.token}}
@@ -67,8 +65,7 @@ token (that was returned from the server when user signed in) is sent as part of
   Browser’s default behaviour is to send data to the backend (which does not even exist) and this will also cause browser to refresh. 
   This is prevented by calling preventDefault for onKeyDown event (shortly e is used for event).  
 
-  Map is used to loop through array of tasks and display each task on a row inside unordered list. Test, that you are able add new tasks and list is displayed. 
-  */
+  Map is used to loop through array of tasks and display each task on a row inside unordered list.  */
   return (
       <div id="container">
         <h3>Todos</h3>
@@ -89,13 +86,6 @@ token (that was returned from the server when user signed in) is sent as part of
         { 
           tasks.map(item => ( 
           <Row item={item} key={item.id} deleteTask={deleteTask} />
-
-            /* yllä oleva row item juttu korvaa tähän kommenttiin jääneen osan. row on tehty omaksi komponentiksi.
-            <li key={item.id}> 
-              {item.description} 
-              <button className='delete-button' onClick={() =>    
-                deleteTask(item.id)}>Delete</button> 
-            </li> */
           )) 
         } 
       </ul>
